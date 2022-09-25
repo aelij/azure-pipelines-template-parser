@@ -40,8 +40,11 @@ internal class ParseHandler
             {
                 traceWriter.Error(error.Message);
             }
+
+            return;
         }
-        else if (template.Stages.Count(t => t.DependsOn.Count == 0) is var startNodeCount && startNodeCount == 0)
+
+        if (template.Stages.Count(t => t.DependsOn.Count == 0) is var startNodeCount && startNodeCount == 0)
         {
             traceWriter.Error("No starting nodes found");
 
@@ -54,6 +57,7 @@ internal class ParseHandler
         if (outputPath is not null)
         {
             File.WriteAllText(outputPath, yamlWriter.ToString());
+            traceWriter.Info($"Wrote result to {outputPath}");
         }
         else
         {
